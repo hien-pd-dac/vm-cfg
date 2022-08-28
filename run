@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+
+import subprocess
+
+def main():
+    try:
+        #subprocess.run("./scripts/common.sh", check=True, shell=True)
+        #subprocess.run("./scripts/tmux.sh", check=True, shell=True)
+        #subprocess.run("./scripts/zsh.sh", check=True, shell=True)
+        #subprocess.run("./scripts/doom-emacs.sh", check=True, shell=True)
+        #subprocess.run("./scripts/docker.sh", check=True, shell=True)
+        #subprocess.run("./scripts/golang.sh", check=True, shell=True)
+        subprocess.run("./scripts/js.sh", check=True, shell=True)
+    except subprocess.CalledProcessError as err:
+        print("ERROR: Failed to run during the installtion.")
+        return
+
+    print("Finished the installtion successfully.")
+    return
+
+if __name__ == "__main__":
+    main()
