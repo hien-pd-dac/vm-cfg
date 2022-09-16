@@ -170,14 +170,16 @@ if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
     export TERM=screen-256color
 fi
 
+# The cfg below seem to be redundant.
 # Append this line to ~/.zshrc to enable fzf keybindings for Zsh:
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-
+# source /usr/share/doc/fzf/examples/key-bindings.zsh
 # Append this line to ~/.zshrc to enable fuzzy auto-completion for Zsh:
-source /usr/share/doc/fzf/examples/completion.zsh
+# source /usr/share/doc/fzf/examples/completion.zsh
 
 # make sure ssh-gent will be ran
 if [[ $SSH_AGENT_PID == '' ]]; then eval "$(ssh-agent -s)" &> /dev/null; fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
