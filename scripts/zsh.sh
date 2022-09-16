@@ -3,7 +3,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-source const.sh
+source scripts/const.sh
 
 install_oh_my_zsh() {
   echo "--- install_oh-my-zsh() ---"

@@ -134,7 +134,7 @@ export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border'
 
 alias refresh_bashrc='source ~/.bashrc'
 
-alias vi='vi'
+alias nvi='nvim'
 alias go='go'
 
 # alias c -> system clipboard

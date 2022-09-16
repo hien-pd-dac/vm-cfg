@@ -14,7 +14,7 @@ install_common_pkgs() {
     zsh \
     autojump \
     curl \
-    neovim \
+    rsync \
     markdown
 }
 

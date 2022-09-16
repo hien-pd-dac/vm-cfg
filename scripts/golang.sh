@@ -7,10 +7,10 @@ install_golang() {
   echo "--- install_golang() ---"
 
   if [[ ! -d /usr/local/go/ ]]; then
-    ( goversion=go1.16.15 && \
-      curl -fLo ~/$goversion.linux-amd64.tar.gz --create-dirs https://golang.org/dl/$goversion.linux-amd64.tar.gz && \
-      sudo tar -C /usr/local/ -xzf ~/$goversion.linux-amd64.tar.gz && \
-      rm ~/$goversion.linux-amd64.tar.gz )
+    ( goversion=go1.16.15 arch=$(dpkg --print-architecture) && \
+      curl -fLo ~/$goversion.linux-$arch.tar.gz --create-dirs https://golang.org/dl/$goversion.linux-$arch.tar.gz && \
+      sudo tar -C /usr/local/ -xzf ~/$goversion.linux-$arch.tar.gz && \
+      rm ~/$goversion.linux-$arch.tar.gz )
   fi
 
   /usr/local/go/bin/go install golang.org/x/tools/gopls@latest
