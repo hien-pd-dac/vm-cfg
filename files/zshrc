@@ -119,7 +119,7 @@ source $ZSH/oh-my-zsh.sh
 # Setup my env variables
 MY_APPCFG_PATH="$HOME/.local"
 
-MY_APP_PATH=$MY_APPCFG_PATH/myApp
+LOCAL_APP_PATH=$HOME/.local/app
 
 GOPATH=$HOME/go
 
@@ -155,7 +155,7 @@ alias glh='git log --pretty=oneline --graph'
 alias gs='git status'
 
 # export local app bin to PATH
-export PATH=$MY_APP_PATH/bin:$PATH
+export PATH=$LOCAL_APP_PATH/bin:$PATH
 
 export PATH=$GOPATH/bin:$PATH
 
@@ -183,3 +183,9 @@ if [[ $SSH_AGENT_PID == '' ]]; then eval "$(ssh-agent -s)" &> /dev/null; fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/hien-phamduc/.local/app/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hien-phamduc/.local/app/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/hien-phamduc/.local/app/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hien-phamduc/.local/app/google-cloud-sdk/completion.zsh.inc'; fi

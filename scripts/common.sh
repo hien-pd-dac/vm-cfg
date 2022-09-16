@@ -7,6 +7,8 @@ install_common_pkgs() {
   echo '--- install_common_pkgs() ---'
   sudo apt install \
     emacs \
+    htop \
+    neofetch \
     git \
     ripgrep \
     fd-find \

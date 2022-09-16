@@ -12,6 +12,7 @@ def main():
         subprocess.run("./scripts/js.sh", check=True, shell=True)
         subprocess.run("./scripts/golang.sh", check=True, shell=True)
         subprocess.run("./scripts/nvim.sh", check=True, shell=True)
+        subprocess.run("./scripts/fzf.sh", check=True, shell=True)
     except subprocess.CalledProcessError as err:
         print("ERROR: Failed to run during the installtion.")
         return
