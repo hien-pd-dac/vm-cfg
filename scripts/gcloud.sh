@@ -15,6 +15,7 @@ setup_gcloud() {
 
 __install_gcloud() {
   if [[ -f $LOCAL_APP_PATH/bin/gcloud ]]; then
+    echo "Info: gcloud already be installed. Skipped"
     return
   fi
   arch_gcloud=""
@@ -43,17 +44,22 @@ __install_need_gcloud_pkgs() {
 }
 
 install_kubectl() {
-  if [[ ! -f $LOCAL_APP_PATH/bin/kubectl ]]; then
-    curl -fLo $LOCAL_APP_PATH/kubectl "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$arch/kubectl"
+  if [[ -f $LOCAL_APP_PATH/bin/kubectl ]]; then
+    echo "Info: kubectl already be installed. Skipped"
+    return
   fi
+  echo "Info: start installing kubectl..."
+  curl -fLo $LOCAL_APP_PATH/kubectl "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$arch/kubectl"
   chmod +x $LOCAL_APP_PATH/kubectl
   ln -s -f $LOCAL_APP_PATH/kubectl $LOCAL_APP_PATH/bin/
 }
 
 install_kustomize() {
   if [[ -f $HOME/go/bin/kustomize ]]; then
+    echo "Info: kustomize already be installed. Skipped"
     return
   fi
+  echo "Info: start installing kustomize..."
   go install sigs.k8s.io/kustomize/kustomize/v4@latest
 }
 

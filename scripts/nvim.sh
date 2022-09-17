@@ -6,10 +6,6 @@ IFS=$'\n\t'
 source scripts/const.sh
 
 __setup_neovim() {
-  if [[ -f /usr/bin/nvim ]]; then
-    echo "Info: neovim aldready be installed. Skipped."
-    exit 0
-  fi
   echo "Info: start setup_neovim()..."
   __install_neovim
   __install_vimPlug
@@ -18,6 +14,10 @@ __setup_neovim() {
 }
 
 __install_neovim() {
+  if [[ -f /usr/bin/nvim ]]; then
+    echo "Info: neovim already be installed. Skipped."
+    return
+  fi
   echo "Info: start install_neovim()..."
   # current using Debian bullseye with neovim apt
   sudo apt install neovim

@@ -4,12 +4,12 @@ set -euo pipefail
 IFS=$'\n\t'
 
 install_docker() {
+  echo "--- install_docker() ---"
   if [[ -f /usr/bin/docker ]]; then
     echo "Info: docker already be installed. Skipped."
     exit 0
   fi
 
-  echo "--- install_docker() ---"
   sudo apt install \
     ca-certificates \
     curl \

@@ -34,6 +34,11 @@ setup_terraform() {
   # The code above did not work.
   # So work around with binary file:
   # https://www.terraform.io/downloads
+
+  if [[ -f $LOCAL_APP_PATH/bin/terraform ]]; then
+    echo "Info: terraform already be installed. Skipped."
+    exit 0
+  fi
   curl -fLo /tmp/terraform.zip --create-dirs https://releases.hashicorp.com/terraform/1.2.9/terraform_1.2.9_linux_$arch.zip && \
     sudo unzip /tmp/terraform.zip -d $LOCAL_APP_PATH/bin/
   rm -rf /tmp/terraform.zip
