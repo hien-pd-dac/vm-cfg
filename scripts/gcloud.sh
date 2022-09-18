@@ -10,6 +10,7 @@ arch=$(dpkg --print-architecture)
 setup_gcloud() {
   echo "Info: start setup_gcloud()...."
   __install_gcloud
+  ln -s -f $LOCAL_APP_PATH/google-cloud-sdk/bin/gcloud $LOCAL_APP_PATH/bin/
   __install_need_gcloud_pkgs
 }
 
@@ -30,17 +31,21 @@ __install_gcloud() {
   tar -xzf /tmp/google-cloud-sdk-$ver-linux-$arch_gcloud.tar.gz -C $LOCAL_APP_PATH/
   $LOCAL_APP_PATH/google-cloud-sdk/install.sh
   mkdir -p $LOCAL_APP_PATH/bin/
-  ln -s -f $LOCAL_APP_PATH/google-cloud-sdk/bin/gcloud $LOCAL_APP_PATH/bin/
   $LOCAL_APP_PATH/google-cloud-sdk/bin/gcloud init
   rm -rf /tmp/google-cloud*
 }
 
 __install_need_gcloud_pkgs() {
   echo "Info: start install_need_gcloud_pkgs()...."
-  install_kubectl
-  install_kustomize
+  setup_kubectl
+  setup_kustomize
   printf '\ngcloud components update\n'
   $LOCAL_APP_PATH/google-cloud-sdk/bin/gcloud components update
+}
+
+setup_kubectl() {
+  install_kubectl
+  ln -s -f $LOCAL_APP_PATH/kubectl $LOCAL_APP_PATH/bin/
 }
 
 install_kubectl() {
@@ -51,10 +56,9 @@ install_kubectl() {
   echo "Info: start installing kubectl..."
   curl -fLo $LOCAL_APP_PATH/kubectl "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$arch/kubectl"
   chmod +x $LOCAL_APP_PATH/kubectl
-  ln -s -f $LOCAL_APP_PATH/kubectl $LOCAL_APP_PATH/bin/
 }
 
-install_kustomize() {
+setup_kustomize() {
   if [[ -f $HOME/go/bin/kustomize ]]; then
     echo "Info: kustomize already be installed. Skipped"
     return
