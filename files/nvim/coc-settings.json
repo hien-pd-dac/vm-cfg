@@ -4,7 +4,8 @@
         "go": {
             "command": "gopls",
             "rootPatterns": [
-                "go.mod"
+                "go.mod",
+                "glide.yaml"
             ],
             "trace.server": "verbose",
             "filetypes": [
