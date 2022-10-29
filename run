@@ -9,6 +9,7 @@ def main():
         subprocess.run("./scripts/zsh.sh", check=True, shell=True)
         subprocess.run("./scripts/tmux.sh", check=True, shell=True)
         subprocess.run("./scripts/golang.sh", check=True, shell=True)
+        subprocess.run("./scripts/c_cpp.sh", check=True, shell=True)
         subprocess.run("./scripts/docker.sh", check=True, shell=True)
         subprocess.run("./scripts/java.sh", check=True, shell=True)
         subprocess.run("./scripts/doom-emacs.sh", check=True, shell=True)
