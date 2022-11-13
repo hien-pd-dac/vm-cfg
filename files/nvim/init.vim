@@ -126,6 +126,10 @@ set expandtab
 " for go files
 autocmd Filetype go setlocal tabstop=4 shiftwidth=4 noexpandtab
 
+" for C/C++ files
+autocmd Filetype c setlocal tabstop=2 shiftwidth=2 noexpandtab
+autocmd Filetype cpp setlocal tabstop=2 shiftwidth=2 noexpandtab
+
 " for yaml files
 autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 expandtab
 
@@ -448,6 +452,7 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \  '*': ['remove_trailing_lines', 'trim_whitespace'],
 \  'go': ['gofmt', 'goimports'],
+\  'cpp': ['clang-format'],
 \  'tf': ['terraform'],
 \  'json': ['fixjson'],
 \  'sh': ['shfmt'],

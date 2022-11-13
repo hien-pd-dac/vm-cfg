@@ -7,6 +7,7 @@ install_ccls() {
   echo "--- install_ccls() ---"
   sudo apt install \
     ccls \
+    clang-format \
     gdb
 }
 
