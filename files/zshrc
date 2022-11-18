@@ -84,6 +84,7 @@ plugins=(
     zsh-autosuggestions
     zsh-syntax-highlighting
     vi-mode
+    fzf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -182,7 +183,9 @@ if [[ $SSH_AGENT_PID == '' ]]; then eval "$(ssh-agent -s)" &> /dev/null; fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# to avoid conflict with vi-mode key-bindings on oh-my-zsh.
+# this is redundant because we already add fzf to the plugins list.
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/hien-phamduc/.local/app/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hien-phamduc/.local/app/google-cloud-sdk/path.zsh.inc'; fi
