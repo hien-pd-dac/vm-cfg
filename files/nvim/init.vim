@@ -454,6 +454,7 @@ let g:ale_fixers = {
 \  'go': ['gofmt', 'goimports'],
 \  'cpp': ['clang-format'],
 \  'tf': ['terraform'],
+\  'terraform': ['terraform'],
 \  'json': ['fixjson'],
 \  'sh': ['shfmt'],
 \  'javascript': ['prettier'],
