@@ -6,7 +6,7 @@ IFS=$'\n\t'
 install_golang() {
   echo "--- install_golang() ---"
   if [[ ! -d /usr/local/go/ ]]; then
-    ( goversion=go1.19.1 arch=$(dpkg --print-architecture) && \
+    ( goversion=go1.20.1 arch=$(dpkg --print-architecture) && \
       curl -fLo ~/$goversion.linux-$arch.tar.gz --create-dirs https://golang.org/dl/$goversion.linux-$arch.tar.gz && \
       sudo tar -C /usr/local/ -xzf ~/$goversion.linux-$arch.tar.gz && \
       rm ~/$goversion.linux-$arch.tar.gz )

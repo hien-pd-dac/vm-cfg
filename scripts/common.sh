@@ -5,7 +5,8 @@ IFS=$'\n\t'
 
 install_common_pkgs() {
   echo '--- install_common_pkgs() ---'
-  sudo apt install \
+  sudo apt update && sudo apt install \
+    aptitude \
     emacs \
     htop \
     neofetch \
@@ -17,6 +18,7 @@ install_common_pkgs() {
     autojump \
     curl \
     rsync \
+    jsonnet \
     markdown
 }
 

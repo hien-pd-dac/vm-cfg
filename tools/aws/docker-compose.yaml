@@ -1,0 +1,9 @@
+version: "2"
+services:
+  aws-cli:
+    image: amazon/aws-cli:latest
+    entrypoint: /bin/bash
+    working_dir: /workspace/
+    network_mode: "host"
+    volumes:
+      - /home/hien-phamduc/.aws:/root/.aws
