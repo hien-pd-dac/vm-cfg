@@ -5,9 +5,16 @@
 ;; My Emacs init.el configuration
 ;; Author: hienpdbk
 ;;
+;; Dependency:
+;;   ripgrep                     (for projectile-ripgrep)
+;;   gopls                       (for lsp-mode go)
+;;   delve                       (for dap-mode)
+;;
 ;;; Code:
+(setq gc-cons-threshold (* 50 1000 1000))
 
-;; Package manager
+;; ==================================================
+;; PACKAGE MANAGER
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -19,11 +26,14 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-;; Define my-key-map
-(define-prefix-command 'my-key-map)
-(global-set-key (kbd "C-SPC") 'my-key-map)
+;; ================================================
+;; my-key-map
+; (define-prefix-command 'my-key-map)
+(defvar my-keymap (make-sparse-keymap))
+(define-key global-map (kbd "C-SPC") (cons "my-prefix" my-keymap))
 
-;; Packages
+;; =================================================
+;; PACKAGES
 (use-package which-key
   :init
   (which-key-mode))
@@ -44,16 +54,43 @@
 ;; Alternative for isearch
 (use-package swiper)
 
-(use-package go-mode
-  :hook (go-mode . lsp))
+(use-package company
+  :init
+  (global-company-mode))
+
+;; TODO: to be removed (review time)
+;;(use-package consult)
+
+(use-package go-mode)
 
 (use-package lsp-mode
   :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-x c")
+  (setq lsp-keymap-prefix "C-SPC c")
   :hook (;; if you want which-key integration
-       (lsp-mode . lsp-enable-which-key-integration))
+		 (c++-mode . lsp)
+		 (c-mode . lsp)
+		 (go-mode . lsp)
+		 (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
+
+;; optionally
+(use-package lsp-ui :commands lsp-ui-mode)
+
+;; if you are ivy user
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+;; optionally if you want to use debugger
+(use-package dap-mode
+  :after lsp-mode
+  :config
+  (dap-mode 1)
+  (dap-auto-configure-mode 1)
+  (require 'dap-dlv-go)
+  :custom
+  (dap-auto-configure-features '(sessions locals breakpoints expressions repl controls tooltip)))
+
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
 (use-package flycheck
   :init (global-flycheck-mode))
@@ -61,7 +98,14 @@
 (use-package projectile
   :config
   (projectile-mode)
-  (setq projectile-project-search-path '(("~/workspace/dac/repos/" . 1))))
+  (setq projectile-project-search-path '(("~/workspace/repos/" . 1))))
+
+(use-package all-the-icons
+  :if (display-graphic-p))
+
+(use-package treemacs
+  :config
+  (treemacs-project-follow-mode))
 
 (use-package magit)
 
@@ -82,71 +126,124 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
+(use-package doom-modeline
+  :init (doom-modeline-mode 1))
+
 (use-package dashboard
   :config
-  (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook)
+  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-center-content t))
+
+(use-package rg)
+
+(use-package git-gutter
+  :init (global-git-gutter-mode))
 
 ;; ===========================================
-;; Init setup
+;; UI
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(global-display-line-numbers-mode 1)
+(setq column-number-mode t)
+(display-line-numbers-mode 1)
 (global-hl-line-mode 1)
 (setq inhibit-startup-message t)    ; Don't show the startup message screen
 (setq visible-bell t)               ; Flash when the bell rings
 (setq custom-file "~/.emacs.d/custom-file.el")
-(load custom-file)
+(load custom-file 'noerror)
 (setq make-backup-files nil)
-
+(setq confirm-kill-emacs 'y-or-n-p)
 (setq-default tab-width 4)
+;; Revert (update) buffers automatically when underlying files are changed externally.
+(global-auto-revert-mode t)
+
+;; Disable line numbers for some modes
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook
+                treemacs-mode-hook
+                eshell-mode-hook
+                vterm-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+;; start every frame maximized
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;; ===========================================
+;; KEY BINDINGS
 
 ;; redefine 'set-mark-command (origin: C-SPC)
-(define-key 'my-key-map (kbd "SPC") 'set-mark-command)
+(defvar my-mark-map (make-sparse-keymap))
+(define-key my-keymap (kbd "m") (cons "mark" my-mark-map))
+(define-key my-mark-map (kbd "m") '("set-mark-command" . set-mark-command))
+(define-key my-mark-map (kbd "p") '("pop-global-mark" . pop-global-mark))
 
-;; windmove keybindings
-(define-prefix-command 'window)
-(define-key 'my-key-map (kbd "w") 'window)
-(define-key 'window (kbd "h") 'windmove-left)
-(define-key 'window (kbd "l") 'windmove-right)
-(define-key 'window (kbd "k") 'windmove-up)
-(define-key 'window (kbd "j") 'windmove-down)
-(define-key 'window (kbd "i") 'split-window-horizontally)
-(define-key 'window (kbd "v") 'split-window-vertically)
-(define-key 'window (kbd "d") 'delete-window)
-
-;; terminal key bindings
-(define-prefix-command 'terminal)
-(define-key 'my-key-map (kbd "t") 'terminal)
-(define-key 'terminal (kbd "o") 'term)
-(define-key 'terminal (kbd "r") 'counsel-shell-history) ;; for shell
+;; terminal
+(defvar my-terminal-map (make-sparse-keymap))
+(define-key my-keymap (kbd "t") (cons "terminal" my-terminal-map))
+(define-key my-terminal-map (kbd "o") '("open-term" . term))
+(define-key my-terminal-map (kbd "r") '("search-history" . counsel-shell-history))
 
 ;; magit
-(define-prefix-command 'magit)
-(define-key 'my-key-map (kbd "g") 'magit)
-(define-key 'magit (kbd "g") 'magit-status)
+(defvar my-magit-map (make-sparse-keymap))
+(define-key my-keymap (kbd "g") (cons "magit" my-magit-map))
+(define-key my-magit-map (kbd "g") '("status" . magit-status))
 
-;; projectile
-(define-key 'my-key-map (kbd "p") 'projectile-command-map)
+;; project
+(define-key my-keymap (kbd "p") (cons "projectile" projectile-command-map))
+(define-key projectile-command-map (kbd "t") '("treemacs-toggle" . treemacs-select-window)) ;; project directory tree
+(define-key projectile-command-map (kbd "r") '("rg-text" . counsel-rg))             ;; ripgrep text in project
+
+;; code
+(define-key global-map (kbd "C-SPC c e") '("error-list" . counsel-flycheck))
+
+;; window
+(defvar my-window-map (make-sparse-keymap))
+(define-key my-keymap (kbd "w") (cons "wiwndow" my-window-map))
+(define-key my-window-map (kbd "h") '("windmove-left" . windmove-left))
+(define-key my-window-map (kbd "l") '("windmove-right" . windmove-right))
+(define-key my-window-map (kbd "k") '("windmove-up" . windmove-up))
+(define-key my-window-map (kbd "j") '("windmove-down" . windmove-down))
+(define-key my-window-map (kbd "i") '("split-window-horizontally" . split-window-horizontally))
+(define-key my-window-map (kbd "v") '("split-window-vertically" . split-window-vertically))
+(define-key my-window-map (kbd "d") '("delete-window" . delete-window))
 
 ;; buffer
-(define-prefix-command 'buffer)
-(define-key 'my-key-map (kbd "b") 'buffer)
-(define-key 'buffer (kbd "b") 'switch-to-buffer)
-(define-key 'buffer (kbd "s") 'save-buffer)
-(define-key 'buffer (kbd "k") 'kill-buffer)
-(define-key 'buffer (kbd "c") 'avy-goto-char-2)
+(defvar my-buffer-map (make-sparse-keymap))
+(define-key my-keymap (kbd "b") (cons "buffer" my-buffer-map))
+(define-key my-buffer-map (kbd "b") '("switch-to-buffer" . switch-to-buffer))
+(define-key my-buffer-map (kbd "s") '("save-buffer" . save-buffer))
+(define-key my-buffer-map (kbd "k") '("kill-buffer" . kill-buffer))
 
 ;; search
-(define-prefix-command 'search)
-(define-key 'my-key-map (kbd "s") 'search)
-(define-key 'search (kbd "s") 'swiper)
+(defvar my-search-map (make-sparse-keymap))
+(define-key my-keymap (kbd "s") (cons "search" my-search-map))
+(define-key my-search-map (kbd "s") '("in-buffer" . swiper))
+(define-key my-search-map (kbd "c") '("avy-goto-char-2" . avy-goto-char-2))
+
+;; emacs
+(defvar my-emacs-map (make-sparse-keymap))
+(define-key my-keymap (kbd "e") (cons "emacs" my-emacs-map))
+(define-key my-emacs-map (kbd "q") '("save-buffers-kill-emacs" . save-buffers-kill-emacs))
+(define-key my-emacs-map (kbd "s") '("desktop-save" . desktop-save))
+(define-key my-emacs-map (kbd "r") '("desktop-read" . desktop-read))
+
+;; register
+(define-key my-keymap (kbd "r") (cons "register" ctl-x-r-map))
+(define-key ctl-x-r-map (kbd "v") '("view-register". view-register))
+
+;; common
+(define-key my-keymap (kbd "x") '("M-x" . execute-extended-command))
+(define-key my-keymap (kbd "h") (cons "help" help-map))
+
+;; other
+(defvar my-other-map (make-sparse-keymap))
+(define-key my-keymap (kbd "o") (cons "other" my-other-map))
+(define-key my-other-map (kbd "y") '("clipboard-kill-ring-save" . clipboard-kill-ring-save))
+(define-key my-other-map (kbd "p") '("clipboard-yank" . clipboard-yank))
+
+(setq gc-cons-threshold (* 2 1000 1000))
 
 (provide 'init)
 ;;; init.el ends here
-
-;; TODO:
-;; 1. fix lsp key prefix
-;; 2. fuzzy search within project
-;; 3. debugger
-;; 4. show git status inline within buffer
