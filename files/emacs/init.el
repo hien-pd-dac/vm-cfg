@@ -98,7 +98,7 @@
 (use-package projectile
   :config
   (projectile-mode)
-  (setq projectile-project-search-path '(("~/workspace/repos/" . 1))))
+  (setq projectile-project-search-path '(("~/workspace/repos/" . 1) ("~/vm-cfg" . 0))))
 
 (use-package all-the-icons
   :if (display-graphic-p))
@@ -146,7 +146,9 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (setq column-number-mode t)
-(display-line-numbers-mode 1)
+(global-display-line-numbers-mode 1)
+(setq-default display-line-numbers-type 'relative)
+
 (global-hl-line-mode 1)
 (setq inhibit-startup-message t)    ; Don't show the startup message screen
 (setq visible-bell t)               ; Flash when the bell rings
@@ -215,6 +217,7 @@
 (define-key my-buffer-map (kbd "b") '("switch-to-buffer" . switch-to-buffer))
 (define-key my-buffer-map (kbd "s") '("save-buffer" . save-buffer))
 (define-key my-buffer-map (kbd "k") '("kill-buffer" . kill-buffer))
+(define-key my-buffer-map (kbd "f") '("find-file" . find-file))
 
 ;; search
 (defvar my-search-map (make-sparse-keymap))
@@ -240,6 +243,14 @@
 ;; other
 (defvar my-other-map (make-sparse-keymap))
 (define-key my-keymap (kbd "o") (cons "other" my-other-map))
+;;    tab-bar
+(setq tab-bar-show nil)
+(define-key my-other-map (kbd "n") '("new-tab-bar" . tab-bar-new-tab))
+(define-key my-other-map (kbd "s") '("switch-tab-bar" . tab-bar-switch-to-tab))
+(define-key my-other-map (kbd "r") '("rename-tab-bar" . tab-bar-rename-tab))
+(define-key my-other-map (kbd "c") '("close-tab-bar" . tab-bar-close-tab))
+
+;;    clipboard
 (define-key my-other-map (kbd "y") '("clipboard-kill-ring-save" . clipboard-kill-ring-save))
 (define-key my-other-map (kbd "p") '("clipboard-yank" . clipboard-yank))
 
