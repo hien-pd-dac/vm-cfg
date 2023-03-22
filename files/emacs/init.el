@@ -1,7 +1,6 @@
 ;;; package --- init.el
 ;;
 ;;; Commentary:
-;;
 ;; My Emacs init.el configuration
 ;; Author: hienpdbk
 ;;
@@ -69,6 +68,7 @@
   :init
   (setq lsp-keymap-prefix "C-SPC c")
   :hook (;; if you want which-key integration
+		 (sh-mode . lsp)
 		 (c++-mode . lsp)
 		 (c-mode . lsp)
 		 (go-mode . lsp)
@@ -83,14 +83,14 @@
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 ;; optionally if you want to use debugger
-(use-package dap-mode
-  :after lsp-mode
-  :config
-  (dap-mode 1)
-  (dap-auto-configure-mode 1)
-  (require 'dap-dlv-go)
-  :custom
-  (dap-auto-configure-features '(sessions locals breakpoints expressions repl controls tooltip)))
+;; (use-package dap-mode
+;;   :after lsp-mode
+;;   :config
+;;   ;; (dap-mode 1)
+;;   (dap-auto-configure-mode 1)
+;;   (require 'dap-dlv-go)
+;;   :custom
+;;   (dap-auto-configure-features '(sessions locals breakpoints expressions repl controls tooltip)))
 
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
@@ -147,11 +147,14 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+
 (setq column-number-mode t)
 (global-display-line-numbers-mode 1)
 (setq-default display-line-numbers-type 'relative)
-
 (global-hl-line-mode 1)
+
+(electric-pair-mode 1)
+
 (setq inhibit-startup-message t)    ; Don't show the startup message screen
 (setq visible-bell t)               ; Flash when the bell rings
 (setq custom-file "~/.emacs.d/custom-file.el")
@@ -196,11 +199,12 @@
 
 ;; project
 (define-key my-keymap (kbd "p") (cons "projectile" projectile-command-map))
-(define-key projectile-command-map (kbd "t") '("treemacs-toggle" . treemacs-select-window)) ;; project directory tree
+(define-key projectile-command-map (kbd "t") '("treemacs-toggle" . treemacs)) ;; project directory tree
 (define-key projectile-command-map (kbd "r") '("rg-text" . counsel-rg))             ;; ripgrep text in project
 
 ;; code
 (define-key global-map (kbd "C-SPC c e") '("error-list" . counsel-flycheck))
+(define-key global-map (kbd "C-SPC c c") '("comment-line" . comment-line))
 
 ;; window
 (defvar my-window-map (make-sparse-keymap))
