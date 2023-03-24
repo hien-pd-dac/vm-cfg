@@ -180,7 +180,7 @@
 ;; ===========================================
 ;; KEY BINDINGS
 
-;; redefine 'set-mark-command (origin: C-SPC)
+;; mark
 (defvar my-mark-map (make-sparse-keymap))
 (define-key my-keymap (kbd "m") (cons "mark" my-mark-map))
 (define-key my-mark-map (kbd "m") '("set-mark-command" . set-mark-command))
@@ -222,14 +222,11 @@
 (define-key my-keymap (kbd "b") (cons "buffer" my-buffer-map))
 (define-key my-buffer-map (kbd "b") '("switch-to-buffer" . switch-to-buffer))
 (define-key my-buffer-map (kbd "s") '("save-buffer" . save-buffer))
+(define-key my-buffer-map (kbd "w") '("write-file" . write-file))
 (define-key my-buffer-map (kbd "k") '("kill-buffer" . kill-buffer))
 (define-key my-buffer-map (kbd "f") '("find-file" . find-file))
-
-;; search
-(defvar my-search-map (make-sparse-keymap))
-(define-key my-keymap (kbd "s") (cons "search" my-search-map))
-(define-key my-search-map (kbd "s") '("in-buffer" . swiper))
-(define-key my-search-map (kbd "c") '("avy-goto-char-2" . avy-goto-char-2))
+(define-key my-buffer-map (kbd "l") '("swiper" . swiper))
+(define-key my-buffer-map (kbd "a") '("avy-goto-char-2" . avy-goto-char-2))
 
 ;; emacs
 (defvar my-emacs-map (make-sparse-keymap))
@@ -244,7 +241,7 @@
 
 ;; common
 (define-key my-keymap (kbd "x") '("M-x" . execute-extended-command))
-(define-key my-keymap (kbd "h") (cons "help" help-map))
+(define-key my-keymap (kbd "C-h") (cons "help" help-map))
 
 ;; other
 (defvar my-other-map (make-sparse-keymap))
@@ -255,7 +252,6 @@
 (define-key my-other-map (kbd "s") '("switch-tab-bar" . tab-bar-switch-to-tab))
 (define-key my-other-map (kbd "r") '("rename-tab-bar" . tab-bar-rename-tab))
 (define-key my-other-map (kbd "c") '("close-tab-bar" . tab-bar-close-tab))
-
 ;;    clipboard
 (define-key my-other-map (kbd "y") '("clipboard-kill-ring-save" . clipboard-kill-ring-save))
 (define-key my-other-map (kbd "p") '("clipboard-yank" . clipboard-yank))
