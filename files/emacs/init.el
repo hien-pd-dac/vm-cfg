@@ -33,6 +33,12 @@
 
 ;; =================================================
 ;; PACKAGES
+
+(use-package exec-path-from-shell
+  :init
+  (when (memq window-system '(mac ns x))
+	(exec-path-from-shell-initialize)))
+
 (use-package which-key
   :init
   (which-key-mode))
@@ -191,6 +197,8 @@
 (define-key my-keymap (kbd "t") (cons "terminal" my-terminal-map))
 (define-key my-terminal-map (kbd "o") '("open-term" . term))
 (define-key my-terminal-map (kbd "r") '("search-history" . counsel-shell-history))
+(define-key my-terminal-map (kbd "l") '("line-mode" . term-line-mode))
+(define-key my-terminal-map (kbd "c") '("char-mode" . term-char-mode))
 
 ;; magit
 (defvar my-magit-map (make-sparse-keymap))
@@ -216,6 +224,10 @@
 (define-key my-window-map (kbd "i") '("split-window-horizontally" . split-window-horizontally))
 (define-key my-window-map (kbd "v") '("split-window-vertically" . split-window-vertically))
 (define-key my-window-map (kbd "d") '("delete-window" . delete-window))
+(define-key my-window-map (kbd "f") '("maximize-layout" . delete-other-windows))
+(winner-mode)
+(define-key my-window-map (kbd "u") '("undo-layout" . winner-undo))
+(define-key my-window-map (kbd "r") '("redo-layout" . winner-redo))
 
 ;; buffer
 (defvar my-buffer-map (make-sparse-keymap))
