@@ -239,6 +239,8 @@
 (define-key my-buffer-map (kbd "f") '("find-file" . find-file))
 (define-key my-buffer-map (kbd "l") '("swiper" . swiper))
 (define-key my-buffer-map (kbd "a") '("avy-goto-char-2" . avy-goto-char-2))
+(define-key my-buffer-map (kbd "n") '("next-buffer" . next-buffer))
+(define-key my-buffer-map (kbd "p") '("previous" . previous-buffer))
 
 ;; emacs
 (defvar my-emacs-map (make-sparse-keymap))
