@@ -18,6 +18,7 @@ def main():
         subprocess.run("./scripts/js.sh", check=True, shell=True)
         subprocess.run("./scripts/nvim.sh", check=True, shell=True)
         subprocess.run("./scripts/gcloud.sh", check=True, shell=True)
+        subprocess.run("./scripts/i3.sh", check=True, shell=True)
     except subprocess.CalledProcessError as err:
         print("ERROR: Failed to run during the installtion.")
         return

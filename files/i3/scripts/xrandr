@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+# the order is from left to right
+externalLeft=$1 # HDMI-A-0
+externalRight=$2 # DisplayPort-1
+internal=$3 # eDP
+
+# modify_monitors() {
+    # xrandr --output eDP --mode 1920x1080 --pos 3840x227 --rotate normal --output HDMI-A-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DisplayPort-0 --off --output DisplayPort-1 --mode 1920x1080 --pos 1920x0 --rotate normal
+# }
+
+gen_xrandr_cmd() {
+  count=0
+  finalCmd="xrandr"
+  if ! xrandr | grep " connected" &>/dev/null; then
+    finalCmd="xrandr --auto"
+    echo "$finalCmd"
+    return
+  fi
+  if xrandr | grep "$externalLeft connected" &>/dev/null; then
+    finalCmd="$finalCmd --output $externalLeft --mode 1920x1080 --pos 0x0 --rotate normal"
+    count=$((count+1))
+  fi
+  if xrandr | grep "$externalRight connected" &>/dev/null; then
+    finalCmd="$finalCmd --output $externalRight --mode 1920x1080 --pos 1920x0 --rotate normal"
+    count=$((count+1))
+  fi
+  if xrandr | grep "$internal connected" &>/dev/null; then
+    finalCmd="$finalCmd --output $internal --primary --mode 1920x1080 --pos 3840x0 --rotate normal"
+    count=$((count+1))
+  fi
+  if [[ $count -eq 0 ]]; then
+    finalCmd="xrandr --auto"
+  fi
+  echo "$finalCmd"
+}
+
+modify_monitors() {
+  cmd=$(gen_xrandr_cmd)
+  eval "$cmd"
+}
+
+modify_monitors

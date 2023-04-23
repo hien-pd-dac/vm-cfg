@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+case $BLOCK_BUTTON in
+  1)  xterm -hold -e htop;; # left click
+  # 2) ;; # middle click
+  # 3) ;; # right click
+  # 4) ;;
+  # 5) ;;
+esac
+
+get_memory_used_percent() {
+  free -h | grep "Mem" | awk '{print $3}'
+}
+
+memory_used_percent=$(get_memory_used_percent)
+
+echo "MEM: $memory_used_percent"

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+case $BLOCK_BUTTON in
+  1)  ;; # left click
+  # 2) ;; # middle click
+  # 3) ;; # right click
+  # 4) ;;
+  # 5) ;;
+esac
+
+get_datetime() {
+  date +"%Y-%m-%d %T"
+}
+
+datetime=$(get_datetime)
+datetime_icon=
+echo "$datetime_icon $datetime"

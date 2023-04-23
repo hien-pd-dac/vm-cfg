@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+case $BLOCK_BUTTON in
+  1) pavucontrol ;; # left click
+  # 2) echo "2";; # middle click
+  # 3) echo "3";; # right click
+  # 4) echo "4";;
+  # 5) echo "5";;
+esac
+
+get_vol_percent() {
+  amixer get Master | grep % | awk '{print $5}' | sed 's/[][]//g'
+}
+
+vol_percent=$(get_vol_percent)
+vol_max_icon=
+echo "VOL: $vol_percent"

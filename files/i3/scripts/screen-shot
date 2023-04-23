@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+case $BLOCK_BUTTON in
+  1) flameshot gui ;; # left click
+  # 2) echo "2";; # middle click
+  # 3) echo "3";; # right click
+  # 4) echo "4";;
+  # 5) echo "5";;
+esac
+
+screen_shot_icon=
+echo "$screen_shot_icon"

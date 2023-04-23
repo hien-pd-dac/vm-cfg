@@ -19,6 +19,7 @@ install_common_pkgs() {
     curl \
     rsync \
     jsonnet \
+    spice-webdavd \ # for UTM sharing
     markdown
 }
 
