@@ -8,7 +8,7 @@ source scripts/const.sh
 arch=$(dpkg --print-architecture)
 
 setup_terraform() {
-  echo "Info: start setup_terraform()...."
+  echo "--- setup_terraform() ---"
 
   # if [[ -f /usr/bin/terraform ]]; then
     # echo "Info: terraform already be installed. Skipped."
@@ -39,6 +39,7 @@ setup_terraform() {
     echo "Info: terraform already be installed. Skipped."
     exit 0
   fi
+  mkdir -p "$LOCAL_APP_PATH"/bin/
   curl -fLo /tmp/terraform.zip --create-dirs https://releases.hashicorp.com/terraform/1.2.9/terraform_1.2.9_linux_$arch.zip && \
     sudo unzip /tmp/terraform.zip -d $LOCAL_APP_PATH/bin/
   rm -rf /tmp/terraform.zip

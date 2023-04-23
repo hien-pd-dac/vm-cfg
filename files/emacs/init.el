@@ -106,7 +106,7 @@
 (use-package projectile
   :config
   (projectile-mode)
-  (setq projectile-project-search-path '(("~/workspace/repos/" . 1) ("~/vm-cfg" . 0))))
+  (setq projectile-project-search-path '(("~/workspace/repos/" . 1) ("~workspace/vm-cfg"))))
 
 (use-package all-the-icons
   :if (display-graphic-p))

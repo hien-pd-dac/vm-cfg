@@ -64,7 +64,7 @@ setup_kustomize() {
     return
   fi
   echo "Info: start installing kustomize..."
-  go install sigs.k8s.io/kustomize/kustomize/v4@latest
+  /usr/local/go/bin/go install sigs.k8s.io/kustomize/kustomize/v4@latest
 }
 
 setup_gcloud

@@ -11,6 +11,7 @@ install_emacs() {
     echo "Info: emacs already be installed. Skipped."
     sudo apt install emacs
   fi
+  mkdir -p "$HOME"/.emacs.d/
   ln -s -f "$VM_CFG_PATH"/files/emacs/init.el "$HOME"/.emacs.d/init.el
 
 }
