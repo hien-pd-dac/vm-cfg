@@ -20,12 +20,12 @@ install_i3() {
   ## cpu
   sudo apt install python3-pip
   sudo apt install pipx
-  pipx install psutil
+  sudo apt install python3-psutil
   ## nic
-  pipx install netifaces
+  sudo apt install python3-netifaces
   sudo apt install iw
   ##puseout
-  # pipx install pulsectl
+  sudo apt install python3-pulsectl
   sudo apt install pulseaudio pavucontrol
 }
 

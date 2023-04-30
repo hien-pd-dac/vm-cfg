@@ -6,10 +6,17 @@ set $mod Mod4
 font pango:Droid Sans Mono Nerd Font 10
 
 # hide window title
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 1
 
-# class                 border  backgr. text    indicator child_border
-client.focused          #9a512f #285577 #ffffff #2e9ef4   #285577
+# https://thomashunter.name/i3-configurator/
+# class                 border  bground text    indicator child_border
+client.focused          #99235D #141306 #FFFFFF #99235D   #99235D
+client.focused_inactive #333333 #5F676A #FFFFFF #484E50   #5F676A
+client.unfocused        #333333 #222222 #888888 #292D2E   #222222
+client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
+client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
+
+client.background       #FFFFFF
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -22,9 +29,11 @@ exec --no-startup-id ibus-daemon -x -d -r
 exec --no-startup-id emacs
 exec --no-startup-id firefox
 
+# make sure open-vm-tools will work
+exec --no-startup-id vmware-user
 
 # setup wallpaper
-exec_always --no-startup-id feh --bg-scale ~/.config/i3/img/debian-wp1.png
+exec_always --no-startup-id feh --bg-scale ~/workspace/vm-cfg/files/i3/gnome-background.svg
 
 # turn off bell sound on X
 exec_always --no-startup-id xset b 0
@@ -120,8 +129,8 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 bar {
-	font pango:Inconsolata 12
-	position top
+	font pango:Inconsolata 11
+	position bottom
 	tray_output none
 	status_command ~/.config/i3/bumblebee-status/bumblebee-status \
 		-m cpu memory disk:root pulseout pulsein time date \
@@ -130,7 +139,8 @@ bar {
 		-p disk.format='{percent:05.02f}%' \
 		-p date.format="%a, %b %d %Y" \
 		-p time.format="%H:%M:%S" \
-		-t solarized-powerline
+		-t moonlight-powerline
+		# -t solarized-powerline
 		# -m keys nic \
 }
 

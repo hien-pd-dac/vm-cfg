@@ -20,6 +20,7 @@ install_common_pkgs() {
     rsync \
     jsonnet \
     spice-webdavd \
+    flameshot \
     markdown
 }
 
