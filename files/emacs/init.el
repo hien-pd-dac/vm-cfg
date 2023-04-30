@@ -71,9 +71,9 @@
 (use-package go-mode)
 
 (use-package lsp-mode
-  :init
-  (setq lsp-keymap-prefix "C-SPC c")
-  :hook (;; if you want which-key integration
+  :config
+  (define-key my-keymap (kbd "l") (cons "lsp" lsp-command-map))
+  :hook (
 		 (sh-mode . lsp)
 		 (c++-mode . lsp)
 		 (c-mode . lsp)
@@ -106,7 +106,12 @@
 (use-package projectile
   :config
   (projectile-mode)
-  (setq projectile-project-search-path '(("~/workspace/repos/" . 1) ("~workspace/vm-cfg"))))
+  (setq projectile-project-search-path '(("~/workspace/repos/" . 1) ("~workspace/vm-cfg")))
+  (define-key my-keymap (kbd "p") (cons "projectile" projectile-command-map)))
+
+(use-package org
+  :config
+  (define-key my-keymap (kbd "o") (cons "org" org-mode-map)))
 
 (use-package all-the-icons
   :if (display-graphic-p))
@@ -205,15 +210,6 @@
 (define-key my-keymap (kbd "g") (cons "magit" my-magit-map))
 (define-key my-magit-map (kbd "g") '("status" . magit-status))
 
-;; project
-(define-key my-keymap (kbd "p") (cons "projectile" projectile-command-map))
-(define-key projectile-command-map (kbd "t") '("treemacs-toggle" . treemacs)) ;; project directory tree
-(define-key projectile-command-map (kbd "r") '("rg-text" . counsel-rg))             ;; ripgrep text in project
-
-;; code
-(define-key global-map (kbd "C-SPC c e") '("error-list" . counsel-flycheck))
-(define-key global-map (kbd "C-SPC c c") '("comment-line" . comment-line))
-
 ;; window
 (defvar my-window-map (make-sparse-keymap))
 (define-key my-keymap (kbd "w") (cons "wiwndow" my-window-map))
@@ -259,16 +255,21 @@
 
 ;; other
 (defvar my-other-map (make-sparse-keymap))
-(define-key my-keymap (kbd "o") (cons "other" my-other-map))
+(define-key my-keymap (kbd "s") (cons "other" my-other-map))
+(define-key my-other-map (kbd "t") '("treemacs-toggle" . treemacs)) ;; project directory tree
+(define-key my-other-map (kbd "r") '("rg-text" . counsel-rg))             ;; ripgrep text in project
 ;;    tab-bar
 (setq tab-bar-show nil)
-(define-key my-other-map (kbd "n") '("new-tab-bar" . tab-bar-new-tab))
+(define-key my-other-map (kbd "c") '("new-tab-bar" . tab-bar-new-tab))
 (define-key my-other-map (kbd "s") '("switch-tab-bar" . tab-bar-switch-to-tab))
-(define-key my-other-map (kbd "r") '("rename-tab-bar" . tab-bar-rename-tab))
-(define-key my-other-map (kbd "c") '("close-tab-bar" . tab-bar-close-tab))
+(define-key my-other-map (kbd "n") '("rename-tab-bar" . tab-bar-rename-tab))
+(define-key my-other-map (kbd "d") '("close-tab-bar" . tab-bar-close-tab))
 ;;    clipboard
 (define-key my-other-map (kbd "y") '("clipboard-kill-ring-save" . clipboard-kill-ring-save))
 (define-key my-other-map (kbd "p") '("clipboard-yank" . clipboard-yank))
+;;    code
+(define-key my-other-map (kbd "e") '("error-list" . counsel-flycheck))
+(define-key my-other-map (kbd "l") '("comment-line" . comment-line))
 
 (setq gc-cons-threshold (* 2 1000 1000))
 
