@@ -33,7 +33,7 @@ exec --no-startup-id firefox
 exec --no-startup-id vmware-user
 
 # setup wallpaper
-exec_always --no-startup-id feh --bg-scale ~/workspace/vm-cfg/files/i3/gnome-background.svg
+exec_always --no-startup-id feh --bg-scale ~/.config/i3/gnome-background.svg
 
 # turn off bell sound on X
 exec_always --no-startup-id xset b 0
@@ -133,15 +133,15 @@ bar {
 	position bottom
 	tray_output none
 	status_command ~/.config/i3/bumblebee-status/bumblebee-status \
-		-m cpu memory disk:root pulseout pulsein time date \
-		-p root.path=/ \
+		-m cpu memory time date \
 		-p memory.format='{percent:05.02f}%' \
-		-p disk.format='{percent:05.02f}%' \
 		-p date.format="%a, %b %d %Y" \
 		-p time.format="%H:%M:%S" \
 		-t moonlight-powerline
 		# -t solarized-powerline
 		# -m keys nic \
+		# -p root.path=/ \
+		# -p disk.format='{percent:05.02f}%' \
 }
 
 bindsym $mod+Escape exec i3lock --color=181717
