@@ -71,14 +71,16 @@
 (use-package go-mode)
 
 (use-package lsp-mode
-  :config
-  (define-key my-keymap (kbd "l") (cons "lsp" lsp-command-map))
+  :init
+  (setq lsp-keymap-prefix "C-SPC l")
   :hook (
 		 (sh-mode . lsp)
 		 (c++-mode . lsp)
 		 (c-mode . lsp)
 		 (go-mode . lsp)
 		 (lsp-mode . lsp-enable-which-key-integration))
+  :config
+  (add-hook 'before-save-hook 'lsp-format-buffer)
   :commands lsp)
 
 ;; optionally
@@ -106,7 +108,7 @@
 (use-package projectile
   :config
   (projectile-mode)
-  (setq projectile-project-search-path '(("~/workspace/repos/" . 1) ("~workspace/vm-cfg")))
+  (setq projectile-project-search-path '(("~/workspace/repos/" . 1)))
   (define-key my-keymap (kbd "p") (cons "projectile" projectile-command-map)))
 
 (use-package org
@@ -121,6 +123,10 @@
   (treemacs-project-follow-mode))
 
 (use-package magit)
+;; c++ LSP
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
 
 (use-package doom-themes
   :config
@@ -153,6 +159,26 @@
 (use-package git-gutter
   :init (global-git-gutter-mode))
 
+(use-package expand-region)
+
+(use-package smartparens
+  :init
+  (smartparens-global-mode t)
+  (require 'smartparens-config))
+
+;; ===========================================
+;; My customization
+(defun hpd/duplicate-line()
+  "My custom function used to dupplicate the current line.
+
+  Designed to be used globally."
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (newline)
+  (yank))
+
 ;; ===========================================
 ;; UI
 (menu-bar-mode -1)
@@ -163,8 +189,10 @@
 (global-display-line-numbers-mode 1)
 (setq-default display-line-numbers-type 'relative)
 (global-hl-line-mode 1)
+;; never recenters the cursor.
+(setq scroll-conservatively 101)
 
-(electric-pair-mode 1)
+;; (electric-pair-mode 1)
 
 (setq inhibit-startup-message t)    ; Don't show the startup message screen
 (setq visible-bell t)               ; Flash when the bell rings
@@ -173,8 +201,11 @@
 (setq make-backup-files nil)
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq-default tab-width 4)
-;; Revert (update) buffers automatically when underlying files are changed externally.
+;; Revert buffers automatically when underlying files are changed externally.
 (global-auto-revert-mode t)
+;; max line length indicator
+(global-display-fill-column-indicator-mode t)
+(setq-default display-fill-column-indicator-column 80)
 
 ;; Disable line numbers for some modes
 (dolist (mode '(org-mode-hook
@@ -192,6 +223,7 @@
 ;; KEY BINDINGS
 
 ;; mark
+(define-key global-map (kbd "C-.") '("set-mark-command" . set-mark-command))
 (defvar my-mark-map (make-sparse-keymap))
 (define-key my-keymap (kbd "m") (cons "mark" my-mark-map))
 (define-key my-mark-map (kbd "m") '("set-mark-command" . set-mark-command))
@@ -257,19 +289,23 @@
 (defvar my-other-map (make-sparse-keymap))
 (define-key my-keymap (kbd "s") (cons "other" my-other-map))
 (define-key my-other-map (kbd "t") '("treemacs-toggle" . treemacs)) ;; project directory tree
-(define-key my-other-map (kbd "r") '("rg-text" . counsel-rg))             ;; ripgrep text in project
+(define-key my-other-map (kbd "r") '("rg-text" . counsel-rg))       ;; ripgrep text in project
+(define-key my-other-map (kbd "x") '("expand-region" . er/expand-region))       ;; ripgrep text in project
 ;;    tab-bar
 (setq tab-bar-show nil)
 (define-key my-other-map (kbd "c") '("new-tab-bar" . tab-bar-new-tab))
 (define-key my-other-map (kbd "s") '("switch-tab-bar" . tab-bar-switch-to-tab))
 (define-key my-other-map (kbd "n") '("rename-tab-bar" . tab-bar-rename-tab))
-(define-key my-other-map (kbd "d") '("close-tab-bar" . tab-bar-close-tab))
+(define-key my-other-map (kbd "k") '("close-tab-bar" . tab-bar-close-tab))
 ;;    clipboard
 (define-key my-other-map (kbd "y") '("clipboard-kill-ring-save" . clipboard-kill-ring-save))
 (define-key my-other-map (kbd "p") '("clipboard-yank" . clipboard-yank))
 ;;    code
 (define-key my-other-map (kbd "e") '("error-list" . counsel-flycheck))
 (define-key my-other-map (kbd "l") '("comment-line" . comment-line))
+(define-key my-other-map (kbd "a") '("hpd/duplicate-line" . hpd/duplicate-line))
+(define-key my-other-map (kbd "d") '("delete-line" . kill-whole-line))
+
 
 (setq gc-cons-threshold (* 2 1000 1000))
 
