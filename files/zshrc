@@ -100,7 +100,7 @@ source $ZSH/oh-my-zsh.sh
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
 # else
-#   export EDITOR='mvim'
+#   export EDITOR='vim'
 # fi
 
 # Compilation flags
@@ -136,7 +136,7 @@ export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border'
 alias refresh_bashrc='source ~/.bashrc'
 
 alias nvi='nvim'
-alias go='go'
+# alias go='go'
 
 # alias c -> system clipboard
 # usage: cat file | c

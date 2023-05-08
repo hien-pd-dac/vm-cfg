@@ -19,8 +19,8 @@ install_oh_my_zsh() {
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
   fi
 
-  echo "install p10k zsh ---"
   if [[ ! -d ~/.oh-my-zsh/custom/themes/powerlevel10k/ ]]; then
+    echo "install p10k zsh ---"
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
   fi
   ln -s -f "$VM_CFG_PATH/files/zshrc" ~/.zshrc

@@ -21,6 +21,7 @@ install_common_pkgs() {
     jsonnet \
     spice-webdavd \
     flameshot \
+    cmake \
     markdown
 }
 
