@@ -8,9 +8,11 @@ install_common_pkgs() {
   sudo apt update && sudo apt install \
     aptitude \
     emacs \
+    vim \
     htop \
     neofetch \
     git \
+    pipx \
     ripgrep \
     fd-find \
     shellcheck \

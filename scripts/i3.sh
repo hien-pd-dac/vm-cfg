@@ -25,7 +25,6 @@ install_i3() {
   fi
   ## cpu
   sudo apt install python3-pip
-  sudo apt install pipx
   sudo apt install python3-psutil
   ## nic
   sudo apt install python3-netifaces

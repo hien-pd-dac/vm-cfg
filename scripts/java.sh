@@ -6,7 +6,7 @@ IFS=$'\n\t'
 # https://wiki.debian.org/Java
 setup_java() {
   echo "Info: start setup_java()...."
-  sudo apt install default-jdk
+  sudo apt install openjdk-17-jdk
 }
 
 setup_java

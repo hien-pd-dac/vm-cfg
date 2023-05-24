@@ -276,6 +276,7 @@
 (define-key my-emacs-map (kbd "q") '("save-buffers-kill-emacs" . save-buffers-kill-emacs))
 (define-key my-emacs-map (kbd "s") '("desktop-save" . desktop-save))
 (define-key my-emacs-map (kbd "r") '("desktop-read" . desktop-read))
+(define-key my-emacs-map (kbd "e") '("eval-buffer" . eval-buffer))
 
 ;; register
 (define-key my-keymap (kbd "r") (cons "register" ctl-x-r-map))
@@ -297,14 +298,19 @@
 (define-key my-other-map (kbd "s") '("switch-tab-bar" . tab-bar-switch-to-tab))
 (define-key my-other-map (kbd "n") '("rename-tab-bar" . tab-bar-rename-tab))
 (define-key my-other-map (kbd "k") '("close-tab-bar" . tab-bar-close-tab))
-;;    clipboard
-(define-key my-other-map (kbd "y") '("clipboard-kill-ring-save" . clipboard-kill-ring-save))
-(define-key my-other-map (kbd "p") '("clipboard-yank" . clipboard-yank))
 ;;    code
 (define-key my-other-map (kbd "e") '("error-list" . counsel-flycheck))
-(define-key my-other-map (kbd "l") '("comment-line" . comment-line))
-(define-key my-other-map (kbd "a") '("hpd/duplicate-line" . hpd/duplicate-line))
-(define-key my-other-map (kbd "d") '("delete-line" . kill-whole-line))
+(define-key my-other-map (kbd "l c") '("comment-line" . comment-line))
+(define-key my-other-map (kbd "l y") '("hpd/duplicate-line" . hpd/duplicate-line))
+(define-key my-other-map (kbd "l d") '("delete-line" . kill-whole-line))
+;;    smartparens
+(define-key my-other-map (kbd "p r") '("sp-rewrap-sexp" . sp-rewrap-sexp))
+(define-key my-other-map (kbd "p d") '("sp-unwrap-sexp" . sp-unwrap-sexp))
+;; select inner text
+(define-key my-other-map (kbd "p s") '("sp-select-next-thing" . sp-select-next-thing))
+(define-key my-other-map (kbd "p e") '("forward-sexp" . forward-sexp))
+(define-key my-other-map (kbd "p a") '("backward-sexp" . backward-sexp))
+
 
 
 (setq gc-cons-threshold (* 2 1000 1000))
