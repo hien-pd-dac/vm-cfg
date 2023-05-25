@@ -125,16 +125,13 @@
 
 (use-package all-the-icons
   :if (display-graphic-p))
+;; after-install: M-x: all-the-icons-install-fonts
 
 (use-package treemacs
   :config
   (treemacs-project-follow-mode))
 
 (use-package magit)
-;; c++ LSP
-(use-package ccls
-  :hook ((c-mode c++-mode objc-mode cuda-mode) .
-         (lambda () (require 'ccls) (lsp))))
 
 (use-package doom-themes
   :config
@@ -173,6 +170,24 @@
   :init
   (smartparens-global-mode t)
   (require 'smartparens-config))
+
+;; ----- PROGRAMMING -----
+;; Shell
+(add-hook 'sh-mode 'lsp)
+;; Go
+(use-package go-mode
+  :config
+  (add-hook 'go-mode-hook 'lsp))
+;; C/C++
+;;;;   LSP
+(use-package ccls
+  :hook
+  ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
+;; Java
+(use-package lsp-java
+  :config
+  (add-hook 'java-mode-hook 'lsp))
 
 ;; ===========================================
 ;; My customization
