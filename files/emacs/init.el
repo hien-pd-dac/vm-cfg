@@ -150,8 +150,11 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
+;; doom-modeline use nerd-icons
+(use-package nerd-icons)
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
+;; after-install: M-x: nerd-icons-install-fonts
 
 (use-package dashboard
   :config
