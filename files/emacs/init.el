@@ -326,17 +326,13 @@
 ;; other
 (defvar my-other-map (make-sparse-keymap))
 (define-key my-keymap (kbd "s") (cons "other" my-other-map))
-(define-key my-other-map (kbd "t") '("treemacs-toggle" . treemacs)) ;; project directory tree
-(define-key my-other-map (kbd "r") '("rg-text" . counsel-rg))       ;; ripgrep text in project
-(define-key my-other-map (kbd "x") '("expand-region" . er/expand-region))       ;; ripgrep text in project
 ;;    tab-bar
 (setq tab-bar-show nil)
-(define-key my-other-map (kbd "c") '("new-tab-bar" . tab-bar-new-tab))
-(define-key my-other-map (kbd "s") '("switch-tab-bar" . tab-bar-switch-to-tab))
-(define-key my-other-map (kbd "n") '("rename-tab-bar" . tab-bar-rename-tab))
-(define-key my-other-map (kbd "k") '("close-tab-bar" . tab-bar-close-tab))
-;;    code
-(define-key my-other-map (kbd "e") '("error-list" . counsel-flycheck))
+(define-key my-other-map (kbd "t n") '("new-tab-bar" . tab-bar-new-tab))
+(define-key my-other-map (kbd "t s") '("switch-tab-bar" . tab-bar-switch-to-tab))
+(define-key my-other-map (kbd "t r") '("rename-tab-bar" . tab-bar-rename-tab))
+(define-key my-other-map (kbd "t c") '("close-tab-bar" . tab-bar-close-tab))
+;;    line
 (define-key my-other-map (kbd "l c") '("comment-line" . comment-line))
 (define-key my-other-map (kbd "l y") '("hpd/duplicate-line" . hpd/duplicate-line))
 (define-key my-other-map (kbd "l d") '("delete-line" . kill-whole-line))
@@ -347,6 +343,14 @@
 (define-key my-other-map (kbd "p s") '("sp-select-next-thing" . sp-select-next-thing))
 (define-key my-other-map (kbd "p e") '("forward-sexp" . forward-sexp))
 (define-key my-other-map (kbd "p a") '("backward-sexp" . backward-sexp))
+;;    code
+(defvar my-code-map (make-sparse-keymap))
+(define-key my-keymap (kbd "c") (cons "code" my-code-map))
+(define-key my-code-map (kbd "e") '("error-list" . counsel-flycheck))
+;; (define-key my-code-map (kbd "s") '("company-yasnippet" . company-yasnippet))
+(define-key my-code-map (kbd "c") '("company-other-backend" . company-other-backend))
+(define-key my-code-map (kbd "t") '("treemacs-toggle" . treemacs)) ;; project directory tree
+(define-key my-code-map (kbd "r") '("rg-text" . counsel-rg))       ;; ripgrep text in project
 
 
 
