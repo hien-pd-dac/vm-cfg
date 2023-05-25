@@ -63,21 +63,24 @@
 
 (use-package company
   :init
-  (global-company-mode))
-
-;; TODO: to be removed (review time)
-;;(use-package consult)
-
-(use-package go-mode)
-
+  (global-company-mode)
+  :config
+  (setq company-minimum-prefix-length 1)
+  (setq completion-styles '(basic
+							partial-completion
+							emacs22
+							))
+  ;; (setq company-idle-delay nil)
+  (setq company-backends '(company-capf
+						   company-yasnippet
+						   (company-dabbrev-code company-keywords)
+						   company-files
+						   company-ispell
+						   )))
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-SPC l")
   :hook (
-		 (sh-mode . lsp)
-		 (c++-mode . lsp)
-		 (c-mode . lsp)
-		 (go-mode . lsp)
 		 (lsp-mode . lsp-enable-which-key-integration))
   :config
   (add-hook 'before-save-hook 'lsp-format-buffer)
@@ -101,6 +104,11 @@
 ;;   (dap-auto-configure-features '(sessions locals breakpoints expressions repl controls tooltip)))
 
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
+(use-package yasnippet
+  :config
+  (yas-global-mode))
+(use-package yasnippet-snippets)
 
 (use-package flycheck
   :init (global-flycheck-mode))
