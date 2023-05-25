@@ -179,6 +179,18 @@
   (newline)
   (yank))
 
+(defun hpd/win-split-and-move-vertically ()
+  "Split a window vertically and move into the new window."
+  (interactive)
+  (split-window-vertically)
+  (windmove-down))
+
+(defun hpd/win-split-and-move-horizontally ()
+  "Split a window horizontally and move into the new window."
+  (interactive)
+  (split-window-horizontally)
+  (windmove-right))
+
 ;; ===========================================
 ;; UI
 (menu-bar-mode -1)
@@ -249,8 +261,10 @@
 (define-key my-window-map (kbd "l") '("windmove-right" . windmove-right))
 (define-key my-window-map (kbd "k") '("windmove-up" . windmove-up))
 (define-key my-window-map (kbd "j") '("windmove-down" . windmove-down))
-(define-key my-window-map (kbd "i") '("split-window-horizontally" . split-window-horizontally))
-(define-key my-window-map (kbd "v") '("split-window-vertically" . split-window-vertically))
+(define-key my-window-map (kbd "i") '("hpd/win-split-and-move-horizontally" .
+									  hpd/win-split-and-move-horizontally))
+(define-key my-window-map (kbd "v") '("hpd/win-split-and-move-vertically" .
+									   hpd/win-split-and-move-vertically))
 (define-key my-window-map (kbd "d") '("delete-window" . delete-window))
 (define-key my-window-map (kbd "f") '("maximize-layout" . delete-other-windows))
 (winner-mode)
