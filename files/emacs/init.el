@@ -248,6 +248,9 @@
 (global-display-fill-column-indicator-mode t)
 (setq-default display-fill-column-indicator-column 80)
 
+(add-to-list 'default-frame-alist
+             '(font . "DejaVu Sans Mono-12"))
+
 ;; Disable line numbers for some modes
 (dolist (mode '(org-mode-hook
                 term-mode-hook
