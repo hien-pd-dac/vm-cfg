@@ -360,8 +360,8 @@
 (define-key my-code-map (kbd "c") '("company-other-backend" . company-other-backend))
 (define-key my-code-map (kbd "t") '("treemacs-toggle" . treemacs)) ;; project directory tree
 (define-key my-code-map (kbd "r") '("rg-text" . counsel-rg))       ;; ripgrep text in project
-
-
+(define-key my-code-map (kbd "s") '("company-yasnippet" . company-yasnippet))
+(define-key my-code-map (kbd "i") '("imenu" . imenu))
 
 (setq gc-cons-threshold (* 2 1000 1000))
 
