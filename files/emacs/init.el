@@ -393,6 +393,24 @@
   (smartparens-global-mode t)
   (require 'smartparens-config))
 
+(use-package project-tab-groups
+  :init
+  (project-tab-groups-mode))
+
+(use-package multiple-cursors)
+
+(use-package vterm
+  :config
+  (add-hook 'vterm-mode-hook
+			(lambda()
+			  (local-unset-key (kbd "C-SPC")))))
+
+;; NOTE: some useful key bindings in vterm
+;; "C-c C-t": copy mode
+;; "RET": copy mode -> normal mode
+;; "C-y": vterm-yank
+;; "C-c C-c": send C-c (KILL SIGN) to vterm
+
 ;; ----- PROGRAMMING -----
 ;; Shell
 (add-hook 'sh-mode 'lsp)
