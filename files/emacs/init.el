@@ -22,6 +22,7 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+
 (require 'use-package)
 (setq use-package-always-ensure t)
 
@@ -332,11 +333,12 @@
 (use-package flycheck
   :init (global-flycheck-mode))
 
-(use-package projectile
-  :config
-  (projectile-mode)
-  (setq projectile-project-search-path '(("~/workspace/repos/" . 1)))
-  (define-key my-keymap (kbd "p") (cons "projectile" projectile-command-map)))
+;; (use-package projectile
+;;   :config
+;;   (projectile-mode)
+;;   (setq projectile-project-search-path '(("~/workspace/repos/" . 1)))
+;;   ;; (define-key my-keymap (kbd "p") (cons "projectile" projectile-command-map))
+;;   )
 
 (use-package org
   :config
@@ -357,7 +359,7 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-gruvbox t)
+  (load-theme 'doom-moonlight t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
