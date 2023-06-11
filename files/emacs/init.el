@@ -45,52 +45,268 @@
 
 (use-package avy)
 
-;; A generic completion mechnism for Emacs
-(use-package ivy
-  :init
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) ")
-  (setq ivy-re-builders-alist
-		'((t . ivy--regex-ignore-order)))
-  (ivy-mode))
-
-(use-package counsel
-  :init
-  (counsel-mode))
-
-;; Alternative for isearch
-(use-package swiper)
-
-(use-package company
-  :init
-  (global-company-mode)
-  :config
-  (setq company-minimum-prefix-length 1)
-  (setq completion-styles '(basic
-							partial-completion
-							emacs22
-							))
-  ;; (setq company-idle-delay nil)
-  (setq company-backends '(company-capf
-						   company-yasnippet
-						   (company-dabbrev-code company-keywords)
-						   company-files
-						   company-ispell
-						   )))
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-SPC l")
+
   :hook (
 		 (lsp-mode . lsp-enable-which-key-integration))
   :config
   (add-hook 'before-save-hook 'lsp-format-buffer)
   :commands lsp)
 
+;; (setq completion-styles '(
+;; 						  basic
+;; 						  partial-completion
+;; 						  emacs22
+;; 						  ;; flex
+;; 						  ))
+
+(setq completion-ignore-case t)
+
+(use-package corfu
+  ;; Optional customizations
+  :custom
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  (corfu-auto-prefix 0)          ;; Minimum length of prefix for auto completion
+  (corfu-auto-delay 0.0)
+  (corfu-popupinfo-delay 0.25)
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  (corfu-quit-no-match 'separator)      ;; Never quit, even if there is no match
+  (corfu-preview-current 'insert)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+  ;; Enable Corfu only for certain modes.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  ;; Recommended: Enable Corfu globally.
+  ;; This is recommended since Dabbrev can be used globally (M-/).
+  ;; See also `corfu-exclude-modes'.
+  :init
+  (global-corfu-mode)
+  (corfu-history-mode)
+  (corfu-popupinfo-mode))
+
+;; NOTE: about some useful key bindings of Corfu
+;;   - C-v, M-v: scroll down, up of candidates
+;;   - C-M-v, C-M-S-v: scroll down, up of docstring (popupinfo)
+
+;; A few more useful configurations...
+(use-package emacs
+  :init
+  ;; TAB cycle if there are only few candidates
+  (setq completion-cycle-threshold 3)
+
+  ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
+  ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
+  ;; (setq read-extended-command-predicate
+  ;;       #'command-completion-default-include-p)
+
+  ;; Enable indentation+completion using the TAB key.
+  ;; `completion-at-point' is often bound to M-TAB.
+  (setq tab-always-indent 'complete))
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles . (partial-completion))))))
+
+;; Add extensions
+(use-package cape
+  ;; Bind dedicated completion commands
+  ;; Alternative prefix keys: C-c p, M-p, M-+, ...
+  :bind (("C-c p p" . completion-at-point) ;; capf
+         ("C-c p t" . complete-tag)        ;; etags
+         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+         ("C-c p h" . cape-history)
+         ("C-c p f" . cape-file)
+         ("C-c p k" . cape-keyword)
+         ("C-c p s" . cape-symbol)
+         ("C-c p a" . cape-abbrev)
+         ("C-c p l" . cape-line)
+         ("C-c p w" . cape-dict)
+         ("C-c p \\" . cape-tex)
+         ("C-c p _" . cape-tex)
+         ("C-c p ^" . cape-tex)
+         ("C-c p &" . cape-sgml)
+         ("C-c p r" . cape-rfc1345))
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  ;; NOTE: The order matters!
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  ;;(add-to-list 'completion-at-point-functions #'cape-history)
+  ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
+  ;;(add-to-list 'completion-at-point-functions #'cape-tex)
+  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
+  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
+  ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
+  ;;(add-to-list 'completion-at-point-functions #'cape-dict)
+  ;;(add-to-list 'completion-at-point-functions #'cape-symbol)
+  ;;(add-to-list 'completion-at-point-functions #'cape-line)
+  )
+
+;; Enable vertico
+(use-package vertico
+  :init
+  (vertico-mode)
+
+  ;; Different scroll margin
+  ;; (setq vertico-scroll-margin 0)
+
+  ;; Show more candidates
+  ;; (setq vertico-count 20)
+
+  ;; Grow and shrink the Vertico minibuffer
+  ;; (setq vertico-resize t)
+
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  ;; (setq vertico-cycle t)
+  )
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; A few more useful configurations...
+;; (use-package emacs
+;;   :init
+;;   ;; Add prompt indicator to `completing-read-multiple'.
+;;   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+;;   (defun crm-indicator (args)
+;;     (cons (format "[CRM%s] %s"
+;;                   (replace-regexp-in-string
+;;                    "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+;;                    crm-separator)
+;;                   (car args))
+;;           (cdr args)))
+;;   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+;;   ;; Do not allow the cursor in the minibuffer prompt
+;;   (setq minibuffer-prompt-properties
+;;         '(read-only t cursor-intangible t face minibuffer-prompt))
+;;   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+;;   ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
+;;   ;; Vertico commands are hidden in normal buffers.
+;;   ;; (setq read-extended-command-predicate
+;;   ;;       #'command-completion-default-include-p)
+
+;;   ;; Enable recursive minibuffers
+;;   (setq enable-recursive-minibuffers t))
+
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be actived in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
+  (marginalia-mode))
+
+;; Example configuration for Consult
+(use-package consult
+  ;; Enable automatic preview at point in the *Completions* buffer. This is
+  ;; relevant when you use the default completion UI.
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+
+  ;; The :init configuration is always executed (Not lazy)
+  :init
+
+  ;; Optionally configure the register formatting. This improves the register
+  ;; preview for `consult-register', `consult-register-load',
+  ;; `consult-register-store' and the Emacs built-ins.
+  (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
+
+  ;; Optionally tweak the register preview window.
+  ;; This adds thin lines, sorting and hides the mode line of the window.
+  (advice-add #'register-preview :override #'consult-register-window)
+
+  ;; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+
+  ;; ;; Use `consult-completion-in-region' if Vertico is enabled.
+  ;; ;; Otherwise use the default `completion--in-region' function.
+  (setq completion-in-region-function
+		(lambda (&rest args)
+          (apply (if vertico-mode
+					 #'consult-completion-in-region
+                   #'completion--in-region)
+				 args)))
+
+  ;; Configure other variables and modes in the :config section,
+  ;; after lazily loading the package.
+  :config
+
+  ;; Optionally configure preview. The default value
+  ;; is 'any, such that any key triggers the preview.
+  ;; (setq consult-preview-key 'any)
+  ;; (setq consult-preview-key "M-.")
+  ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
+  ;; For some commands and buffer sources it is useful to configure the
+  ;; :preview-key on a per-command basis using the `consult-customize' macro.
+  (consult-customize
+   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-bookmark consult--source-file-register
+   consult--source-recent-file consult--source-project-recent-file
+   ;; :preview-key "M-."
+   :preview-key '(:debounce 0.4 any))
+
+  ;; Optionally configure the narrowing key.
+  ;; Both < and C-+ work reasonably well.
+  (setq consult-narrow-key "<") ;; "C-+"
+
+  ;; Optionally make narrowing help available in the minibuffer.
+  ;; You may want to use `embark-prefix-help-command' or which-key instead.
+  ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+
+  ;; By default `consult-project-function' uses `project-root' from project.el.
+  ;; Optionally configure a different project root function.
+  ;;;; 1. project.el (the default)
+  ;; (setq consult-project-function #'consult--default-project--function)
+  ;;;; 2. vc.el (vc-root-dir)
+  ;; (setq consult-project-function (lambda (_) (vc-root-dir)))
+  ;;;; 3. locate-dominating-file
+  ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
+  ;;;; 4. projectile.el (projectile-project-root)
+  ;; (autoload 'projectile-project-root "projectile")
+  ;; (setq consult-project-function (lambda (_) (projectile-project-root)))
+  ;;;; 5. No project support
+  ;; (setq consult-project-function nil)
+)
+
+(use-package consult-yasnippet)
+
 ;; optionally
 (use-package lsp-ui
   :commands lsp-ui-mode
   :config
-  (setq lsp-ui-sideline-show-diagnostics nil))
+  (setq lsp-ui-sideline-show-diagnostics nil)
+  (setq lsp-ui-doc-show-with-mouse nil))
 
 ;; if you are ivy user
 ;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
@@ -286,6 +502,14 @@
 (define-key my-keymap (kbd "g") (cons "magit" my-magit-map))
 (define-key my-magit-map (kbd "g") '("status" . magit-status))
 
+;; project
+(defvar my-project-map (make-sparse-keymap))
+;; (define-key my-keymap (kbd "p") (cons "project" projectile-command-map))
+(define-key my-keymap (kbd "p") (cons "project" project-prefix-map))
+(define-key project-prefix-map (kbd "d") '("project-discovery" . project-remember-projects-under))
+(define-key project-prefix-map (kbd "b") '("consult-project-buffer" . consult-project-buffer))
+(define-key project-prefix-map (kbd "r") '("consult-ripgrep" . consult-ripgrep))
+
 ;; window
 (defvar my-window-map (make-sparse-keymap))
 (define-key my-keymap (kbd "w") (cons "wiwndow" my-window-map))
@@ -311,7 +535,7 @@
 (define-key my-buffer-map (kbd "w") '("write-file" . write-file))
 (define-key my-buffer-map (kbd "k") '("kill-buffer" . kill-buffer))
 (define-key my-buffer-map (kbd "f") '("find-file" . find-file))
-(define-key my-buffer-map (kbd "l") '("swiper" . swiper))
+(define-key my-buffer-map (kbd "l") '("consult-line" . consult-line))
 (define-key my-buffer-map (kbd "a") '("avy-goto-char-2" . avy-goto-char-2))
 (define-key my-buffer-map (kbd "n") '("next-buffer" . next-buffer))
 (define-key my-buffer-map (kbd "p") '("previous-buffer" . previous-buffer))
@@ -352,16 +576,16 @@
 (define-key my-other-map (kbd "p s") '("sp-select-next-thing" . sp-select-next-thing))
 (define-key my-other-map (kbd "p e") '("forward-sexp" . forward-sexp))
 (define-key my-other-map (kbd "p a") '("backward-sexp" . backward-sexp))
+
 ;;    code
 (defvar my-code-map (make-sparse-keymap))
 (define-key my-keymap (kbd "c") (cons "code" my-code-map))
 (define-key my-code-map (kbd "e") '("error-list" . counsel-flycheck))
-;; (define-key my-code-map (kbd "s") '("company-yasnippet" . company-yasnippet))
-(define-key my-code-map (kbd "c") '("company-other-backend" . company-other-backend))
+(define-key my-code-map (kbd "s") '("consult-yasnippet" . consult-yasnippet))
+;; (define-key my-code-map (kbd "c") '("company-other-backend" . company-other-backend))
 (define-key my-code-map (kbd "t") '("treemacs-toggle" . treemacs)) ;; project directory tree
-(define-key my-code-map (kbd "r") '("rg-text" . counsel-rg))       ;; ripgrep text in project
-(define-key my-code-map (kbd "s") '("company-yasnippet" . company-yasnippet))
-(define-key my-code-map (kbd "i") '("imenu" . imenu))
+;; (define-key my-code-map (kbd "s") '("yas-expand" . yas-expand))
+(define-key my-code-map (kbd "i") '("consult-imenu" . consult-imenu))
 
 (setq gc-cons-threshold (* 2 1000 1000))
 
