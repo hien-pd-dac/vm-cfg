@@ -74,8 +74,8 @@
   (corfu-auto-delay 0.0)
   (corfu-popupinfo-delay 0.25)
   ;; (corfu-separator ?\s)          ;; Orderless field separator
-  (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  (corfu-quit-no-match 'separator)      ;; Never quit, even if there is no match
+  (corfu-quit-at-boundary 'separator)
+  (corfu-quit-no-match 'separator)
   (corfu-preview-current 'insert)    ;; Disable current candidate preview
   ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
   ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
