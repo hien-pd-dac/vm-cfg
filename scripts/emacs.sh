@@ -13,7 +13,8 @@ install_emacs() {
   fi
   mkdir -p "$HOME"/.emacs.d/
   ln -s -f "$VM_CFG_PATH"/files/emacs/init.el "$HOME"/.emacs.d/init.el
-
+  # vterm
+  sudo apt install libtool-bin libvterm-dev
 }
 
 install_emacs
