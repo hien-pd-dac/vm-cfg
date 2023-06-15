@@ -70,10 +70,10 @@
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-auto t)                 ;; Enable auto completion
-  (corfu-auto-prefix 0)          ;; Minimum length of prefix for auto completion
+  (corfu-auto-prefix 1)          ;; Minimum length of prefix for auto completion
   (corfu-auto-delay 0.0)
   (corfu-popupinfo-delay 0.25)
-  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  (corfu-separator ?\s)          ;; Orderless field separator
   (corfu-quit-at-boundary 'separator)
   (corfu-quit-no-match 'separator)
   (corfu-preview-current 'insert)    ;; Disable current candidate preview
@@ -93,6 +93,15 @@
   (global-corfu-mode)
   (corfu-history-mode)
   (corfu-popupinfo-mode))
+
+(defun corfu-enable-in-minibuffer ()
+  "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+  (when (where-is-internal #'completion-at-point (list (current-local-map)))
+    ;; (setq-local corfu-auto nil) ;; Enable/disable auto completion
+    (setq-local corfu-echo-delay nil ;; Disable automatic echo and popup
+                corfu-popupinfo-delay nil)
+    (corfu-mode 1)))
+(add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer)
 
 ;; NOTE: about some useful key bindings of Corfu
 ;;   - C-v, M-v: scroll down, up of candidates
@@ -464,7 +473,7 @@
 
 (setq column-number-mode t)
 (global-display-line-numbers-mode 1)
-(setq-default display-line-numbers-type 'relative)
+(setq-default display-line-numbers-type t)
 (global-hl-line-mode 1)
 ;; never recenters the cursor.
 (setq scroll-conservatively 101)
@@ -600,7 +609,7 @@
 ;;    code
 (defvar my-code-map (make-sparse-keymap))
 (define-key my-keymap (kbd "c") (cons "code" my-code-map))
-(define-key my-code-map (kbd "e") '("error-list" . counsel-flycheck))
+(define-key my-code-map (kbd "e") '("error-list" . lsp-ui-flycheck-list))
 (define-key my-code-map (kbd "s") '("consult-yasnippet" . consult-yasnippet))
 ;; (define-key my-code-map (kbd "c") '("company-other-backend" . company-other-backend))
 (define-key my-code-map (kbd "t") '("treemacs-toggle" . treemacs)) ;; project directory tree
