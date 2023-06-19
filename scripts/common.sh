@@ -24,6 +24,7 @@ install_common_pkgs() {
     spice-webdavd \
     flameshot \
     cmake \
+    ibus-unikey \
     markdown
 }
 

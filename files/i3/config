@@ -41,6 +41,23 @@ exec_always --no-startup-id xset b 0
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+
+bar {
+	font pango:Inconsolata 11
+	position bottom
+	tray_output primary
+	status_command ~/.config/i3/bumblebee-status/bumblebee-status \
+		-m cpu memory time date \
+		-p memory.format='{percent:05.02f}%' \
+		-p date.format="%a, %b %d %Y" \
+		-p time.format="%H:%M:%S" \
+		-t moonlight-powerline
+		# -t solarized-powerline
+		# -m keys nic \
+		# -p root.path=/ \
+		# -p disk.format='{percent:05.02f}%' \
+}
+# --- KEY BINDINGS ---
 # start a terminal
 bindsym $mod+Return exec --no-startup-id gnome-terminal
 
@@ -78,10 +95,10 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+# bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+# bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -128,42 +145,27 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-bar {
-	font pango:Inconsolata 11
-	position bottom
-	tray_output none
-	status_command ~/.config/i3/bumblebee-status/bumblebee-status \
-		-m cpu memory time date \
-		-p memory.format='{percent:05.02f}%' \
-		-p date.format="%a, %b %d %Y" \
-		-p time.format="%H:%M:%S" \
-		-t moonlight-powerline
-		# -t solarized-powerline
-		# -m keys nic \
-		# -p root.path=/ \
-		# -p disk.format='{percent:05.02f}%' \
-}
-
+# screen locking
 bindsym $mod+Escape exec i3lock --color=181717
 
-set $mode_launcher Launch: [e]macs [f]irefox
-bindsym $mod+o mode "$mode_launcher"
+# set $mode_launcher Launch: [e]macs [f]irefox
+# bindsym $mod+o mode "$mode_launcher"
 
-mode "$mode_launcher" {
-    bindsym f exec firefox, mode "default"
-    bindsym e exec emacs, mode "default"
+# mode "$mode_launcher" {
+#     bindsym f exec firefox, mode "default"
+#     bindsym e exec emacs, mode "default"
 
-    bindsym Escape mode "default"
-    bindsym Return mode "default"
-}
+#     bindsym Escape mode "default"
+#     bindsym Return mode "default"
+# }
 
-set $mode_focus Focus: [e]macs [f]irefox
-bindsym $mod+f mode "$mode_focus"
+# set $mode_focus Focus: [e]macs [f]irefox
+# bindsym $mod+f mode "$mode_focus"
 
-mode "$mode_focus" {
-    bindsym e [class="Emacs"] focus, mode "default"
-	bindsym f [class="Firefox"] focus, mode "default"
+# mode "$mode_focus" {
+#     bindsym e [class="Emacs"] focus, mode "default"
+# 	bindsym f [class="Firefox"] focus, mode "default"
 
-    bindsym Escape mode "default"
-    bindsym Return mode "default"
-}
+#     bindsym Escape mode "default"
+#     bindsym Return mode "default"
+# }
