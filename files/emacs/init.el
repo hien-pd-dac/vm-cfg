@@ -368,7 +368,7 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-moonlight t)
+  (load-theme 'doom-monokai-classic t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -478,7 +478,7 @@
 ;; never recenters the cursor.
 (setq scroll-conservatively 101)
 
-;; (electric-pair-mode 1)
+(electric-pair-mode 1) ;; smartparens does not auto-indent on newline
 
 (setq inhibit-startup-message t)    ; Don't show the startup message screen
 (setq visible-bell t)               ; Flash when the bell rings
