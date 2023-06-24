@@ -54,6 +54,8 @@
 		 (lsp-mode . lsp-enable-which-key-integration))
   :config
   (add-hook 'before-save-hook 'lsp-format-buffer)
+  :custom
+  (lsp-headerline-breadcrumb-enable nil)
   :commands lsp)
 
 ;; (setq completion-styles '(
@@ -474,11 +476,11 @@
 (setq column-number-mode t)
 (global-display-line-numbers-mode 1)
 (setq-default display-line-numbers-type t)
-(global-hl-line-mode 1)
+;; (global-hl-line-mode 1)
 ;; never recenters the cursor.
 (setq scroll-conservatively 101)
 
-(electric-pair-mode 1) ;; smartparens does not auto-indent on newline
+;; (electric-pair-mode 1) ;; smartparens does not auto-indent on newline
 
 (setq inhibit-startup-message t)    ; Don't show the startup message screen
 (setq visible-bell t)               ; Flash when the bell rings
