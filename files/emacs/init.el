@@ -401,10 +401,10 @@
 
 (use-package expand-region)
 
-(use-package smartparens
-  :init
-  (smartparens-global-mode t)
-  (require 'smartparens-config))
+;; (use-package smartparens
+;;   :init
+;;   (smartparens-global-mode t)
+;;   (require 'smartparens-config))
 
 (use-package project-tab-groups
   :init
@@ -480,7 +480,7 @@
 ;; never recenters the cursor.
 (setq scroll-conservatively 101)
 
-;; (electric-pair-mode 1) ;; smartparens does not auto-indent on newline
+(electric-pair-mode 1) ;; smartparens does not auto-indent on newline
 
 (setq inhibit-startup-message t)    ; Don't show the startup message screen
 (setq visible-bell t)               ; Flash when the bell rings
