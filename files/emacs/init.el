@@ -49,6 +49,7 @@
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-SPC l")
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
   :hook (
 		 (lsp-mode . lsp-enable-which-key-integration))
@@ -613,6 +614,7 @@
 (define-key my-other-map (kbd "l c") '("comment-line" . comment-line))
 (define-key my-other-map (kbd "l y") '("hpd/duplicate-line" . hpd/duplicate-line))
 (define-key my-other-map (kbd "l d") '("delete-line" . kill-whole-line))
+(define-key my-other-map (kbd "l l") '("goto-line" . goto-line))
 ;;    smartparens
 (define-key my-other-map (kbd "p r") '("sp-rewrap-sexp" . sp-rewrap-sexp))
 (define-key my-other-map (kbd "p d") '("sp-unwrap-sexp" . sp-unwrap-sexp))
