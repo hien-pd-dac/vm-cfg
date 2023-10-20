@@ -62,7 +62,7 @@ bar {
 bindsym $mod+Return exec --no-startup-id gnome-terminal
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+Shift+y kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec "rofi -combi-modi window,drun,run,ssh -theme solarized -font \\"hack 10\\" -show combi -icon-theme \\"Papirus\\" -show-icons -fixed-num-lines"
