@@ -456,6 +456,27 @@
   (add-hook 'terraform-mode-hook 'my-terraform-mode-init)
   (add-hook 'terraform-mode-hook 'terraform-format-on-save-mode))
 
+;; FIXME: migrate from quelpa-use-package to straight.el
+;; (unless (package-installed-p 'quelpa)
+;;   (with-temp-buffer
+;;     (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
+;;     (eval-buffer)
+;;     (quelpa-self-upgrade)))
+
+;; (quelpa
+;;  '(quelpa-use-package
+;;    :fetcher git
+;;    :url "https://github.com/quelpa/quelpa-use-package.git"))
+
+;; (require 'quelpa-use-package)
+
+;; (use-package copilot
+;;   :quelpa (copilot :fetcher github
+;;                    :repo "zerolfx/copilot.el"
+;;                    :branch "main"
+;;                    :files ("dist" "*.el")))
+;; you can utilize :map :hook and :config to customize copilot
+
 ;; ===========================================
 ;; My customization
 (defun hpd/duplicate-line()
@@ -480,6 +501,12 @@
   (interactive)
   (split-window-horizontally)
   (windmove-right))
+
+(defun hpd/terminal ()
+  "Open `vterm` and then `rename-uniquely`."
+  (interactive)
+  (vterm)
+  (rename-uniquely))
 
 ;; ===========================================
 ;; UI
@@ -537,7 +564,7 @@
 ;; terminal
 (defvar my-terminal-map (make-sparse-keymap))
 (define-key my-keymap (kbd "t") (cons "terminal" my-terminal-map))
-(define-key my-terminal-map (kbd "o") '("open-term" . term))
+(define-key my-terminal-map (kbd "o") '("open-terminal" . hpd/terminal))
 (define-key my-terminal-map (kbd "r") '("search-history" . counsel-shell-history))
 (define-key my-terminal-map (kbd "l") '("line-mode" . term-line-mode))
 (define-key my-terminal-map (kbd "c") '("char-mode" . term-char-mode))
