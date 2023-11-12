@@ -155,6 +155,11 @@ alias gl='git log --oneline --graph'
 alias glh='git log --pretty=oneline --graph'
 alias gs='git status'
 
+# make alias
+alias mt='make test'
+alias mb='make build'
+alias mr='make run'
+
 # export local app bin to PATH
 export PATH=$LOCAL_APP_PATH/bin:$PATH
 

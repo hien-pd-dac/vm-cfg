@@ -16,6 +16,7 @@ install_golang() {
   /usr/local/go/bin/go install golang.org/x/tools/cmd/goimports@latest
   /usr/local/go/bin/go install golang.org/x/lint/golint@latest
   /usr/local/go/bin/go install github.com/golang/mock/mockgen@v1.6.0
+  /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@latest
 
   if [[ ! -f $HOME/go/bin/golangci-lint ]]; then
     curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(/usr/local/go/bin/go env GOPATH)/bin v1.46.2
