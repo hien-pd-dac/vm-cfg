@@ -417,7 +417,11 @@
   :config
   (add-hook 'vterm-mode-hook
 			(lambda()
-			  (local-unset-key (kbd "C-SPC")))))
+			  (local-unset-key (kbd "C-SPC"))
+			  (local-unset-key (kbd "C-h"))
+			  (local-unset-key (kbd "C-l"))
+			  (local-unset-key (kbd "C-k"))
+			  (local-unset-key (kbd "C-j")))))
 
 ;; NOTE: some useful key bindings in vterm
 ;; "C-c C-t": copy mode
@@ -589,6 +593,12 @@
 (define-key my-window-map (kbd "l") '("windmove-right" . windmove-right))
 (define-key my-window-map (kbd "k") '("windmove-up" . windmove-up))
 (define-key my-window-map (kbd "j") '("windmove-down" . windmove-down))
+
+(define-key global-map (kbd "C-h") 'windmove-left)
+(define-key global-map (kbd "C-l") 'windmove-right)
+(define-key global-map (kbd "C-k") 'windmove-up)
+(define-key global-map (kbd "C-j") 'windmove-down)
+
 (define-key my-window-map (kbd "i") '("hpd/win-split-and-move-horizontally" .
 									  hpd/win-split-and-move-horizontally))
 (define-key my-window-map (kbd "v") '("hpd/win-split-and-move-vertically" .
