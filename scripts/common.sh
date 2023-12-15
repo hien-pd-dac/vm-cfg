@@ -25,6 +25,7 @@ install_common_pkgs() {
     flameshot \
     cmake \
     ibus-unikey \
+    openssl \
     markdown
 }
 
