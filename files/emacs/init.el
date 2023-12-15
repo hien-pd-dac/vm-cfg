@@ -555,6 +555,8 @@
 ;; start every frame maximized
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+;; enforce a newline at the end of a file
+(setq require-final-newline t)
 ;; ===========================================
 ;; KEY BINDINGS
 
